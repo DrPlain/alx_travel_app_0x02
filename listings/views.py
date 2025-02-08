@@ -7,8 +7,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from .models import Property, User, Booking, Payment
 from .serializers import PropertySerializer, UserSerializer,  BookingSerializer
-from services.payment import initiate_payment, verify_payment
-
+from .services.payment import initiate_payment, verify_payment
 # Create your views here.
 
 
@@ -35,7 +34,8 @@ class BookingViewset(ModelViewSet):
         """Creates a booking and initiates payment."""
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        booking = serializer.save(user=request.user)
+        booking = serializer.save()
+        print(booking)
 
         # Call payment service
         payment_response = initiate_payment(request.user, booking)

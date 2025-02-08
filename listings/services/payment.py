@@ -11,13 +11,25 @@ def initiate_payment(user: User, booking: Booking):
     headers = {"Authorization": f"Bearer {settings.CHAPA_SECRET_KEY}",
                "Content-Type": "application/json"}
 
+    # payload = {
+    #     "amount": booking.total_price,
+    #     "currency": "ETB",
+    #     "email": user.email,
+    #     "first_name": user.first_name,
+    #     "last_name": user.last_name,
+    #     "phone_number": user.phone_number,
+    #     "tx_ref": f"booking_{booking.booking_id}",
+    #     # "callback_url": "https://yourdomain.com/payment/callback/",
+    #     # "return_url": "https://yourdomain.com/payment/success/",
+    # }
+
     payload = {
-        "amount": booking.total_price,
-        "currency": "ETB",
-        "email": user.email,
-        "first_name": user.first_name,
-        "last_name": user.last_name,
-        "phone_number": user.phone_number,
+        "amount": 500,
+        "currency": "USD",
+        # "email": user.email,
+        # "first_name": user.first_name,
+        # "last_name": user.last_name,
+        "phone_number": '0900123456',
         "tx_ref": f"booking_{booking.booking_id}",
         # "callback_url": "https://yourdomain.com/payment/callback/",
         # "return_url": "https://yourdomain.com/payment/success/",
@@ -30,7 +42,7 @@ def initiate_payment(user: User, booking: Booking):
         # Create Payment record
         payment = Payment.objects.create(
             user=user,
-            booking_reference=f"booking_{booking.id}",
+            booking_reference=f"booking_{booking.booking_id}",
             amount=booking.total_price,
             transaction_id=response_data["data"]["tx_ref"],
             status="Pending"

@@ -87,7 +87,8 @@ class Booking(models.Model):
         return 0
 
     def __str__(self):
-        return f"Booking {self.booking_id} for {self.property} by {self.user}"
+        return f"Booking {self.booking_id} for {self.property_id} by {self.user_id}"
+
 
 class Payment(models.Model):
     STATUS_CHOICES = [
@@ -100,7 +101,8 @@ class Payment(models.Model):
     booking_reference = models.CharField(max_length=100, unique=True)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     transaction_id = models.CharField(max_length=100, blank=True, null=True)
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default="Pending")
+    status = models.CharField(
+        max_length=10, choices=STATUS_CHOICES, default="Pending")
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
